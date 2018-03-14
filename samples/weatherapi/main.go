@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-//Weather
+// Weather is a weather forecast API response
 type Weather struct {
 	Title             string `json:"title"`
 	Link              string `json:"link"`
@@ -19,19 +19,19 @@ type Weather struct {
 	Copyright         Copyright
 }
 
-//Description
+//Description is a weather forecast API response
 type Description struct {
 	Text       string `json:"text"`
 	PublicTime string `json:"publicTime"`
 }
 
-//PinpointLocations
+//PinpointLocations is a weather forecast API response
 type PinpointLocations struct {
 	Link string `json:"link"`
 	Name string `json:"name"`
 }
 
-//Forecasts
+//Forecasts is a weather forecast API response
 type Forecasts struct {
 	DateLabel   string `json:"dateLabel"`
 	Telop       string `json:"telop"`
@@ -40,13 +40,13 @@ type Forecasts struct {
 	Image       Image
 }
 
-//Temperature
+//Temperature is a weather forecast API response
 type Temperature struct {
 	Max int `json:"max"`
 	Min int `json:"min"`
 }
 
-//Image
+//Image is a weather forecast API response
 type Image struct {
 	Width  int    `json:"width"`
 	URL    string `json:"url"`
@@ -54,14 +54,14 @@ type Image struct {
 	Height int    `json:"height"`
 }
 
-//Location
+//Location is a weather forecast API response
 type Location struct {
 	City       string `json:"city"`
 	Area       string `json:"area"`
 	Prefecture string `json:"prefecture"`
 }
 
-//Copyright
+//Copyright is a weather forecast API response
 type Copyright struct {
 	Provider []Provider
 	Link     string `json:"link"`
@@ -69,13 +69,13 @@ type Copyright struct {
 	Image    CopyrightImage
 }
 
-//Provider
+//Provider is a weather forecast API response
 type Provider struct {
 	Link string `json:"linl"`
 	Name string `json:"name"`
 }
 
-//CopyrightImage
+//CopyrightImage is a weather forecast API response
 type CopyrightImage struct {
 	Width  int    `json:"width"`
 	Link   string `json:"link"`
