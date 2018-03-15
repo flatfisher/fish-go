@@ -9,13 +9,15 @@ type Location struct {
 	Lat, Long float64
 }
 
-var m map[string]Location
+var locations = map[string]Location{
+	"Tokyo":  {35.6895, 139.6917},
+	"Miyagi": {38.2688, 40.8721},
+}
 
 func main() {
-	m = make(map[string]Location)
-	m["Tokyo"] = Location{
-		35.6895, 139.6917,
-	}
-
-	fmt.Println(m["Tokyo"])
+	fmt.Println(locations)
+	delete(locations, "Tokyo")
+	v, ok := locations["Tokyo"]
+	fmt.Println("v?", v)
+	fmt.Println("Present?", ok)
 }
