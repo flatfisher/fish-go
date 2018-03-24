@@ -9,3 +9,9 @@ func TestHello(t *testing.T) {
 		t.Fatal("failed test")
 	}
 }
+
+func TestWorld(t *testing.T) {
+	if "World" != getWorld() {
+		t.Fatal("faild test")
+	}
+}
