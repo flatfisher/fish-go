@@ -2,14 +2,10 @@ package main
 
 import "fmt"
 
-func getHello() string {
+func getHelloWorld() string {
 	return "Hello World"
 }
 
-func getWorld() string {
-	return "World"
-}
-
 func main() {
-	fmt.Println(getHello())
+	fmt.Println(getHelloWorld())
 }
