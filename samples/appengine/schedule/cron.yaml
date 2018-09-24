@@ -1,0 +1,9 @@
+cron:
+- description: "Sample Cron"
+  url: /
+  schedule: every day 21:00
+  timezone: Japan
+  target:  schedule
+  retry_parameters:
+    min_backoff_seconds: 2.5
+    max_doublings: 5
