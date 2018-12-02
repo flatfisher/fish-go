@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	url := "http://localhost:8080"
+	url := "http://localhost:5000"
 
 	maxConnection := make(chan bool, 10)
 	wg := &sync.WaitGroup{}
