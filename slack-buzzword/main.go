@@ -19,7 +19,6 @@ type Message struct {
 type Channel struct {
 	Messages []Message `json:"messages"`
 }
-
 type Buzzword struct {
 	Word  string
 	Count int
@@ -44,9 +43,13 @@ func (b ByCount) Less(i, j int) bool {
 }
 
 func main() {
+	// 控えたURLを入れる
 	url := ""
 
 	res, err := http.Get(url)
+	if err != nil {
+		log.Fatal(err)
+	}
 	if res.StatusCode != 200 {
 		return
 	}
@@ -54,17 +57,16 @@ func main() {
 
 	var c Channel
 
-	decoder := json.NewDecoder(res.Body)
-	err = decoder.Decode(&c)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	m, err := mecab.New("-Owakati")
 	if err != nil {
 		fmt.Printf("Mecab instance error. err: %v", err)
 	}
 	defer m.Destroy()
+	decoder := json.NewDecoder(res.Body)
+	err = decoder.Decode(&c)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	var tmp []string
 	for _, msg := range c.Messages {
