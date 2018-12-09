@@ -113,12 +113,7 @@ func parseToNode(m *mecab.MeCab, s string, t *[]string) {
 func wordCount(a []string) map[string]int {
 	c := make(map[string]int)
 	for _, word := range a {
-		_, ok := c[word]
-		if ok {
-			c[word]++
-		} else {
-			c[word] = 1
-		}
+		c[word]++
 	}
 	return c
 }
