@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/csv"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 
 	"golang.org/x/net/html"
@@ -13,6 +15,13 @@ import (
 )
 
 func main() {
+	file, err := os.Create("sample.csv")
+	if err != nil {
+		log.Println(err)
+	}
+	defer file.Close()
+	wr := csv.NewWriter(file)
+
 	s := ""
 	for y := 7; y <= 18; y++ {
 		year := getString(y)
@@ -31,6 +40,7 @@ func main() {
 			z := html.NewTokenizer(res.Body)
 			content := []string{}
 			// While have not hit the </html> tag
+			c := 0
 			for z.Token().Data != "html" {
 				tt := z.Next()
 				if tt == html.StartTagToken {
@@ -42,17 +52,22 @@ func main() {
 							if err != nil {
 								log.Fatal(err)
 							}
-							t := strings.TrimSpace(text)
-							content = append(content, t)
+							if c < 8 {
+								t := strings.TrimSpace(text)
+								content = append(content, t)
+								c++
+							} else {
+								wr.Write(content)
+								c = 0
+								content = []string{}
+							}
 						}
 					}
 				}
 			}
-			// Print to check the slice's content
-			fmt.Println(content)
 		}
-		break
 	}
+	wr.Flush()
 }
 
 func getString(n int) string {
