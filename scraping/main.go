@@ -2,8 +2,13 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
+	"log"
+	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	"golang.org/x/text/encoding/japanese"
+	"golang.org/x/text/transform"
 )
 
 func main() {
@@ -11,9 +16,21 @@ func main() {
 	if err != nil {
 		fmt.Print("url scarapping failed")
 	}
-	doc.Find("tr > td").Each(func(_ int, s *goquery.Selection) {
+
+	doc.Find("table tr td").Each(func(i int, s *goquery.Selection) {
 		text := s.Text()
-		fmt.Printf("%T", text)
-		fmt.Println(text)
+		msg, err := sJisttoUtf8(text)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(msg)
 	})
+}
+
+func sJisttoUtf8(str string) (string, error) {
+	ret, err := ioutil.ReadAll(transform.NewReader(strings.NewReader(str), japanese.ShiftJIS.NewDecoder()))
+	if err != nil {
+		return "", err
+	}
+	return string(ret), err
 }
