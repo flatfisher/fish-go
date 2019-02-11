@@ -17,7 +17,7 @@ import (
 
 func main() {
 	r := regexp.MustCompile(`(東京都$|北海道$|(?:京都|大阪)府|.{2,3}県)`)
-	file, err := os.Create("sample.csv")
+	file, err := os.Create("")
 	if err != nil {
 		log.Println(err)
 	}
@@ -50,6 +50,7 @@ func main() {
 							content = append(content, text)
 							if r.MatchString(text) {
 								wr.Write(content)
+								wr.Flush()
 								content = []string{}
 							}
 						}
@@ -58,7 +59,6 @@ func main() {
 			}
 		}
 	}
-	wr.Flush()
 }
 
 func getString(n int) string {
