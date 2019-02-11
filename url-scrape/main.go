@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"regexp"
 	"strings"
 
 	"golang.org/x/net/html"
@@ -15,6 +16,13 @@ import (
 )
 
 func main() {
+	r := regexp.MustCompile(`(東京都$|北海道$|(?:京都|大阪)府|.{2,3}県)`)
+	file, err := os.Create("sample.csv")
+	if err != nil {
+		log.Println(err)
+	}
+	defer file.Close()
+	wr := csv.NewWriter(file)
 	content := []string{}
 	s := ""
 	for y := 7; y <= 18; y++ {
@@ -39,22 +47,17 @@ func main() {
 							if err != nil {
 								log.Fatal(err)
 							}
-							t := strings.TrimSpace(text)
-							content = append(content, t)
+							content = append(content, text)
+							if r.MatchString(text) {
+								wr.Write(content)
+								content = []string{}
+							}
 						}
 					}
 				}
 			}
 		}
-		break
 	}
-	file, err := os.Create("sample.csv")
-	if err != nil {
-		log.Println(err)
-	}
-	defer file.Close()
-	wr := csv.NewWriter(file)
-	wr.Write(content)
 	wr.Flush()
 }
 
