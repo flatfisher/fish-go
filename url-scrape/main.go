@@ -15,13 +15,7 @@ import (
 )
 
 func main() {
-	file, err := os.Create("sample.csv")
-	if err != nil {
-		log.Println(err)
-	}
-	defer file.Close()
-	wr := csv.NewWriter(file)
-
+	content := []string{}
 	s := ""
 	for y := 7; y <= 18; y++ {
 		year := getString(y)
@@ -33,14 +27,7 @@ func main() {
 				log.Fatal(err)
 			}
 			defer res.Body.Close()
-			if res.StatusCode == 200 {
-				fmt.Println(url)
-			}
-
 			z := html.NewTokenizer(res.Body)
-			content := []string{}
-			// While have not hit the </html> tag
-			c := 0
 			for z.Token().Data != "html" {
 				tt := z.Next()
 				if tt == html.StartTagToken {
@@ -52,21 +39,22 @@ func main() {
 							if err != nil {
 								log.Fatal(err)
 							}
-							if c < 8 {
-								t := strings.TrimSpace(text)
-								content = append(content, t)
-								c++
-							} else {
-								wr.Write(content)
-								c = 0
-								content = []string{}
-							}
+							t := strings.TrimSpace(text)
+							content = append(content, t)
 						}
 					}
 				}
 			}
 		}
+		break
 	}
+	file, err := os.Create("sample.csv")
+	if err != nil {
+		log.Println(err)
+	}
+	defer file.Close()
+	wr := csv.NewWriter(file)
+	wr.Write(content)
 	wr.Flush()
 }
 
