@@ -20,4 +20,19 @@ func main() {
 	v, ok := locations["Tokyo"]
 	fmt.Println("v?", v)
 	fmt.Println("Present?", ok)
+
+	var tmp []string
+	tmp = append(tmp, "hello")
+	tmp = append(tmp, "hello")
+	tmp = append(tmp, "world")
+	c := wordCount(tmp)
+	fmt.Println(c)
+}
+
+func wordCount(a []string) map[string]int {
+	c := make(map[string]int)
+	for _, word := range a {
+		c[word]++
+	}
+	return c
 }
