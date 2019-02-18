@@ -38,18 +38,6 @@ func main() {
 	}
 	// [END fs_add_data_1]
 
-	// [START fs_add_data_2]
-	_, _, err = client.Collection("users").Add(ctx, map[string]interface{}{
-		"first":  "Alan",
-		"middle": "Mathison",
-		"last":   "Turing",
-		"born":   1912,
-	})
-	if err != nil {
-		log.Fatalf("Failed adding aturing: %v", err)
-	}
-	// [END fs_add_data_2]
-
 	// [START fs_get_all_users]
 	iter := client.Collection("users").Documents(ctx)
 	for {
