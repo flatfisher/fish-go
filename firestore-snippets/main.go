@@ -29,4 +29,8 @@ func main() {
 		log.Fatalf("Cannot create client: %v", err)
 	}
 	defer client.Close()
+
+	if err := prepareQuery(ctx, client); err != nil {
+		log.Fatalf("Cannot prepare query docs: %v", err)
+	}
 }
