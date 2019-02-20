@@ -33,4 +33,7 @@ func main() {
 	if err := prepareQuery(ctx, client); err != nil {
 		log.Fatalf("Cannot prepare query docs: %v", err)
 	}
+	if err := addDocAsMap(ctx, client); err != nil {
+		log.Fatalf("Cannot add document as map: %v", err)
+	}
 }
