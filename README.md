@@ -21,3 +21,4 @@ Go言語練習用リポジトリ
 - https://speakerdeck.com/budougumi0617/go-modules-in-go1-dot-12
 - https://budougumi0617.github.io/2019/02/15/go-modules-on-go112
 - https://godoc.org/cloud.google.com/go/firestore
+- https://github.com/GoogleCloudPlatform/golang-samples/tree/master/firestore/firestore_snippets
