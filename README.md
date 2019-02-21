@@ -11,6 +11,7 @@ Go言語練習用リポジトリ
 - GraphQL
 - GKE
 - System
+- Export Google Calendar's schedule
 
 ## 参考
 - https://gobyexample.com
@@ -22,3 +23,4 @@ Go言語練習用リポジトリ
 - https://budougumi0617.github.io/2019/02/15/go-modules-on-go112
 - https://godoc.org/cloud.google.com/go/firestore
 - https://github.com/GoogleCloudPlatform/golang-samples/tree/master/firestore/firestore_snippets
+- https://developers.google.com/calendar/quickstart/go
