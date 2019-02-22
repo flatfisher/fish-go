@@ -24,3 +24,4 @@ Go言語練習用リポジトリ
 - https://godoc.org/cloud.google.com/go/firestore
 - https://github.com/GoogleCloudPlatform/golang-samples/tree/master/firestore/firestore_snippets
 - https://developers.google.com/calendar/quickstart/go
+- https://dave.cheney.net/practical-go/presentations/qcon-china.html
