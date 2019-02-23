@@ -81,4 +81,7 @@ func main() {
 	if err := prepareRetrieve(ctx, client); err != nil {
 		log.Fatalf("Cannot prepare for retrieve samples: %v", err)
 	}
+	if err := paginateCursor(ctx, client); err != nil {
+		log.Fatalf("Cannot paginate cursor: %v", err)
+	}
 }

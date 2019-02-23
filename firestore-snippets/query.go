@@ -49,3 +49,18 @@ func prepareQuery(ctx context.Context, client *firestore.Client) error {
 	}
 	return nil
 }
+
+func paginateCursor(ctx context.Context, client *firestore.Client) error {
+	cities := client.Collection("cities")
+	firstPage := cities.OrderBy("population", firestore.Asc).Limit(25).Documents(ctx)
+	docs, err := firstPage.GetAll()
+	if err != nil {
+		return err
+	}
+	lastDoc := docs[len(docs)-1]
+	secondPage := cities.OrderBy("population", firestore.Asc).
+		StartAfter(lastDoc.Data()["population"]).
+		Limit(25)
+	_ = secondPage
+	return nil
+}
