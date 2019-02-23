@@ -97,3 +97,14 @@ func updateDoc(ctx context.Context, client *firestore.Client) error {
 	}
 	return err
 }
+
+func updateDocCreateIfMissing(ctx context.Context, client *firestore.Client) error {
+	_, err := client.Collection("cities").Doc("BJ").Set(ctx, map[string]interface{}{
+		"capital": true,
+	}, firestore.MergeAll)
+
+	if err != nil {
+		log.Printf("An error has occurred: %s", err)
+	}
+	return err
+}

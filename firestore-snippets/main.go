@@ -54,4 +54,7 @@ func main() {
 	if err := updateDoc(ctx, client); err != nil {
 		log.Fatalf("Cannot update doc: %v", err)
 	}
+	if err := updateDocCreateIfMissing(ctx, client); err != nil {
+		log.Fatalf("Cannot update doc, creating if missing: %v", err)
+	}
 }
