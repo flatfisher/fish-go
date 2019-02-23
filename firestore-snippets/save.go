@@ -246,3 +246,26 @@ func infoTransaction(ctx context.Context, client *firestore.Client) error {
 	}
 	return err
 }
+
+func batchWrite(ctx context.Context, client *firestore.Client) error {
+	batch := client.Batch()
+
+	nycRef := client.Collection("cities").Doc("NYC")
+	batch.Set(nycRef, map[string]interface{}{
+		"name": "New York City",
+	})
+
+	sfRef := client.Collection("cities").Doc("SF")
+	batch.Set(sfRef, map[string]interface{}{
+		"population": 1000000,
+	}, firestore.MergeAll)
+
+	laRef := client.Collection("cities").Doc("LA")
+	batch.Delete(laRef)
+
+	_, err := batch.Commit(ctx)
+	if err != nil {
+		log.Printf("An error has occurred: %s", err)
+	}
+	return err
+}

@@ -75,4 +75,7 @@ func main() {
 	if err := infoTransaction(ctx, client); err != nil {
 		log.Fatalf("Cannot return info in transaction: %v", err)
 	}
+	if err := batchWrite(ctx, client); err != nil {
+		log.Fatalf("Cannot write in a batch: %v", err)
+	}
 }
