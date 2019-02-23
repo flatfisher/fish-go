@@ -42,4 +42,7 @@ func main() {
 	if err := addDocAsEntity(ctx, client); err != nil {
 		log.Fatalf("Cannot add document as entity: %v", err)
 	}
+	if err := addDocWithID(ctx, client); err != nil {
+		log.Fatalf("Cannot add doc with id: %v", err)
+	}
 }

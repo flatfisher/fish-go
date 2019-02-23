@@ -54,3 +54,12 @@ func addDocAsEntity(ctx context.Context, client *firestore.Client) error {
 	}
 	return err
 }
+
+func addDocWithID(ctx context.Context, client *firestore.Client) error {
+	var data = make(map[string]interface{})
+	_, err := client.Collection("cities").Doc("new-city-id").Set(ctx, data)
+	if err != nil {
+		log.Printf("An error has occurred: %s", err)
+	}
+	return err
+}
