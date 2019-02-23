@@ -150,3 +150,27 @@ func updateDocNested(ctx context.Context, client *firestore.Client) error {
 	}
 	return err
 }
+
+func updateDocServerTimestamp(ctx context.Context, client *firestore.Client) error {
+	_, preErr := client.Collection("objects").Doc("some-id").Set(ctx, map[string]interface{}{
+		"timestamp": 0,
+	})
+	if preErr != nil {
+		return preErr
+	}
+	_, err := client.Collection("objects").Doc("some-id").Set(ctx, map[string]interface{}{
+		"timestamp": firestore.ServerTimestamp,
+	}, firestore.MergeAll)
+	if err != nil {
+		log.Printf("An error has occurred: %s", err)
+	}
+	return err
+}
+
+func deleteDoc(ctx context.Context, client *firestore.Client) error {
+	_, err := client.Collection("cities").Doc("DC").Delete(ctx)
+	if err != nil {
+		log.Printf("An error has occurred: %s", err)
+	}
+	return err
+}

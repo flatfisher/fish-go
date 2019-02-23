@@ -63,4 +63,7 @@ func main() {
 	if err := updateDocNested(ctx, client); err != nil {
 		log.Fatalf("Cannot update nested doc: %v", err)
 	}
+	if err := deleteDoc(ctx, client); err != nil {
+		log.Fatalf("Cannot delete doc: %v", err)
+	}
 }
