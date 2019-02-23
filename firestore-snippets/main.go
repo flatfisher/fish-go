@@ -104,4 +104,7 @@ func main() {
 	if err := allDocs(ctx, client); err != nil {
 		log.Fatalf("Cannot retrieve all docs: %v", err)
 	}
+	if err := getCollections(ctx, client); err != nil {
+		log.Fatalf("Cannot get subcollections for document: %v", err)
+	}
 }

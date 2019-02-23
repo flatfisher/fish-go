@@ -81,3 +81,18 @@ func allDocs(ctx context.Context, client *firestore.Client) error {
 	}
 	return nil
 }
+
+func getCollections(ctx context.Context, client *firestore.Client) error {
+	iter := client.Collection("cities").Doc("SF").Collections(ctx)
+	for {
+		collRef, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		fmt.Printf("Found collection with id: %s\n", collRef.ID)
+	}
+	return nil
+}
