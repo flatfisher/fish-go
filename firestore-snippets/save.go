@@ -63,3 +63,14 @@ func addDocWithID(ctx context.Context, client *firestore.Client) error {
 	}
 	return err
 }
+
+func addDocWithoutID(ctx context.Context, client *firestore.Client) error {
+	_, _, err := client.Collection("cities").Add(ctx, map[string]interface{}{
+		"name":    "Tokyo",
+		"country": "Japan",
+	})
+	if err != nil {
+		log.Printf("An error has occurred: %s", err)
+	}
+	return err
+}

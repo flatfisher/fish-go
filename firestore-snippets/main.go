@@ -45,4 +45,7 @@ func main() {
 	if err := addDocWithID(ctx, client); err != nil {
 		log.Fatalf("Cannot add doc with id: %v", err)
 	}
+	if err := addDocWithoutID(ctx, client); err != nil {
+		log.Fatalf("Cannot add doc without id: %v", err)
+	}
 }
