@@ -42,3 +42,15 @@ func addDocDataTypes(ctx context.Context, client *firestore.Client) error {
 	}
 	return err
 }
+
+func addDocAsEntity(ctx context.Context, client *firestore.Client) error {
+	city := City{
+		Name:    "Los Angeles",
+		Country: "USA",
+	}
+	_, err := client.Collection("cities").Doc("LA").Set(ctx, city)
+	if err != nil {
+		log.Printf("An error has occurred: %s", err)
+	}
+	return err
+}

@@ -39,4 +39,7 @@ func main() {
 	if err := addDocDataTypes(ctx, client); err != nil {
 		log.Fatalf("Cannot add document with more data types: %v", err)
 	}
+	if err := addDocAsEntity(ctx, client); err != nil {
+		log.Fatalf("Cannot add document as entity: %v", err)
+	}
 }
