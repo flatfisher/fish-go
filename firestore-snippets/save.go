@@ -192,3 +192,31 @@ func deleteField(ctx context.Context, client *firestore.Client) error {
 	//})
 	return err
 }
+
+func runSimpleTransaction(ctx context.Context, client *firestore.Client) error {
+	_, preErr := client.Collection("cities").Doc("SF").Set(ctx, map[string]interface{}{
+		"population": 860000,
+	})
+
+	if preErr != nil {
+		return preErr
+	}
+	ref := client.Collection("cities").Doc("SF")
+	err := client.RunTransaction(ctx, func(ctx context.Context, tx *firestore.Transaction) error {
+		doc, err := tx.Get(ref) // tx.Get, NOT ref.Get!
+		if err != nil {
+			return err
+		}
+		pop, err := doc.DataAt("population")
+		if err != nil {
+			return err
+		}
+		return tx.Set(ref, map[string]interface{}{
+			"population": pop.(int64) + 1,
+		}, firestore.MergeAll)
+	})
+	if err != nil {
+		log.Printf("An error has occurred: %s", err)
+	}
+	return err
+}

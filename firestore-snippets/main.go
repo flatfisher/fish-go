@@ -69,4 +69,7 @@ func main() {
 	if err := deleteField(ctx, client); err != nil {
 		log.Fatalf("Cannot delete document field: %v", err)
 	}
+	if err := runSimpleTransaction(ctx, client); err != nil {
+		log.Fatalf("Cannot run simple job in transaction: %v", err)
+	}
 }
