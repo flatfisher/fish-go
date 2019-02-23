@@ -174,3 +174,21 @@ func deleteDoc(ctx context.Context, client *firestore.Client) error {
 	}
 	return err
 }
+
+func deleteField(ctx context.Context, client *firestore.Client) error {
+	_, err := client.Collection("cities").Doc("BJ").Update(ctx, []firestore.Update{
+		{
+			Path:  "capital",
+			Value: firestore.Delete,
+		},
+	})
+	if err != nil {
+		log.Printf("An error has occurred: %s", err)
+	}
+	// Use Set once this feature is implemented:
+	// https://github.com/GoogleCloudPlatform/google-cloud-go/issues/832
+	// Set(ctx, map[string]interface{}{
+	//	"capital": firestore.Delete,
+	//})
+	return err
+}

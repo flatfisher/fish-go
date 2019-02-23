@@ -66,4 +66,7 @@ func main() {
 	if err := deleteDoc(ctx, client); err != nil {
 		log.Fatalf("Cannot delete doc: %v", err)
 	}
+	if err := deleteField(ctx, client); err != nil {
+		log.Fatalf("Cannot delete document field: %v", err)
+	}
 }
