@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 
 	"cloud.google.com/go/firestore"
 )
@@ -25,4 +26,14 @@ func prepareRetrieve(ctx context.Context, client *firestore.Client) error {
 		}
 	}
 	return nil
+}
+
+func docAsMap(ctx context.Context, client *firestore.Client) (map[string]interface{}, error) {
+	dsnap, err := client.Collection("cities").Doc("SF").Get(ctx)
+	if err != nil {
+		return nil, err
+	}
+	m := dsnap.Data()
+	fmt.Printf("Document data: %#v\n", m)
+	return m, nil
 }

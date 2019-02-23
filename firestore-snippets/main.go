@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 
@@ -84,4 +85,10 @@ func main() {
 	if err := paginateCursor(ctx, client); err != nil {
 		log.Fatalf("Cannot paginate cursor: %v", err)
 	}
+
+	doc, err := docAsMap(ctx, client)
+	if err != nil {
+		log.Fatalf("Cannot get doc as map: %v", err)
+	}
+	fmt.Printf("Retrieved doc as map: %v\n", doc)
 }
