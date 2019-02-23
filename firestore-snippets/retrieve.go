@@ -37,3 +37,14 @@ func docAsMap(ctx context.Context, client *firestore.Client) (map[string]interfa
 	fmt.Printf("Document data: %#v\n", m)
 	return m, nil
 }
+
+func docAsEntity(ctx context.Context, client *firestore.Client) (*City, error) {
+	dsnap, err := client.Collection("cities").Doc("BJ").Get(ctx)
+	if err != nil {
+		return nil, err
+	}
+	var c City
+	dsnap.DataTo(&c)
+	fmt.Printf("Document data: %#v\n", c)
+	return &c, nil
+}

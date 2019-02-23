@@ -91,4 +91,10 @@ func main() {
 		log.Fatalf("Cannot get doc as map: %v", err)
 	}
 	fmt.Printf("Retrieved doc as map: %v\n", doc)
+
+	city, err := docAsEntity(ctx, client)
+	if err != nil {
+		log.Fatalf("Cannot get doc as entity: %v", err)
+	}
+	fmt.Printf("Retrieved doc as entity: %v\n", city)
 }
