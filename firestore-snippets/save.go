@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"time"
 
 	"cloud.google.com/go/firestore"
 )
@@ -19,5 +20,25 @@ func addDocAsMap(ctx context.Context, client *firestore.Client) error {
 		log.Printf("An error has occurred: %s", err)
 	}
 	// [END fs_add_simple_doc_as_map]
+	return err
+}
+
+func addDocDataTypes(ctx context.Context, client *firestore.Client) error {
+	doc := make(map[string]interface{})
+	doc["stringExample"] = "Hello world!"
+	doc["booleanExample"] = true
+	doc["numberExample"] = 3.14159265
+	doc["dateExample"] = time.Now()
+	doc["arrayExample"] = []interface{}{5, true, "hello"}
+	doc["nullExample"] = nil
+	doc["objectExample"] = map[string]interface{}{
+		"a": 5,
+		"b": true,
+	}
+
+	_, err := client.Collection("data").Doc("one").Set(ctx, doc)
+	if err != nil {
+		log.Printf("An error has occurred: %s", err)
+	}
 	return err
 }

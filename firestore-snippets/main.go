@@ -36,4 +36,7 @@ func main() {
 	if err := addDocAsMap(ctx, client); err != nil {
 		log.Fatalf("Cannot add document as map: %v", err)
 	}
+	if err := addDocDataTypes(ctx, client); err != nil {
+		log.Fatalf("Cannot add document with more data types: %v", err)
+	}
 }
