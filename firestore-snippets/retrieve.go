@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"cloud.google.com/go/firestore"
+	"google.golang.org/api/iterator"
 )
 
 func prepareRetrieve(ctx context.Context, client *firestore.Client) error {
@@ -47,4 +48,36 @@ func docAsEntity(ctx context.Context, client *firestore.Client) (*City, error) {
 	dsnap.DataTo(&c)
 	fmt.Printf("Document data: %#v\n", c)
 	return &c, nil
+}
+
+func multipleDocs(ctx context.Context, client *firestore.Client) error {
+	fmt.Println("All capital cities:")
+	iter := client.Collection("cities").Where("capital", "==", true).Documents(ctx)
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		fmt.Println(doc.Data())
+	}
+	return nil
+}
+
+func allDocs(ctx context.Context, client *firestore.Client) error {
+	fmt.Println("All cities:")
+	iter := client.Collection("cities").Documents(ctx)
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		fmt.Println(doc.Data())
+	}
+	return nil
 }

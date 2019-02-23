@@ -97,4 +97,11 @@ func main() {
 		log.Fatalf("Cannot get doc as entity: %v", err)
 	}
 	fmt.Printf("Retrieved doc as entity: %v\n", city)
+
+	if err := multipleDocs(ctx, client); err != nil {
+		log.Fatalf("Cannot retrieve capital cities: %v", err)
+	}
+	if err := allDocs(ctx, client); err != nil {
+		log.Fatalf("Cannot retrieve all docs: %v", err)
+	}
 }
