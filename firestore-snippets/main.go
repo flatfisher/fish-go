@@ -107,4 +107,10 @@ func main() {
 	if err := getCollections(ctx, client); err != nil {
 		log.Fatalf("Cannot get subcollections for document: %v", err)
 	}
+	if err := createArrayContainsQuery(ctx, client); err != nil {
+		log.Fatalf("Cannot get query results using array-contains: %v", err)
+	}
+	if err := createStartAtDocSnapshotQuery(ctx, client); err != nil {
+		log.Fatalf("Cannot get query results using document snapshot: %v", err)
+	}
 }
