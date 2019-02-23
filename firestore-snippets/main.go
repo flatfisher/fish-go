@@ -78,4 +78,7 @@ func main() {
 	if err := batchWrite(ctx, client); err != nil {
 		log.Fatalf("Cannot write in a batch: %v", err)
 	}
+	if err := prepareRetrieve(ctx, client); err != nil {
+		log.Fatalf("Cannot prepare for retrieve samples: %v", err)
+	}
 }
