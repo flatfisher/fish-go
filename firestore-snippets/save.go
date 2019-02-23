@@ -108,3 +108,20 @@ func updateDocCreateIfMissing(ctx context.Context, client *firestore.Client) err
 	}
 	return err
 }
+
+func updateDocMultiple(ctx context.Context, client *firestore.Client) error {
+	_, err := client.Collection("cities").Doc("Delhi").Set(ctx, City{Name: "Delhi"})
+	if err != nil {
+		return err
+	}
+	_, err = client.Collection("cities").Doc("Delhi").Set(ctx, map[string]interface{}{
+		"capital":           true,
+		"country":           "India",
+		"population":        16787941,
+		"areaInSquareMiles": 573.0,
+	}, firestore.MergeAll)
+	if err != nil {
+		log.Printf("An error has occurred: %s", err)
+	}
+	return err
+}

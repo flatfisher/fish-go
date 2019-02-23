@@ -57,4 +57,7 @@ func main() {
 	if err := updateDocCreateIfMissing(ctx, client); err != nil {
 		log.Fatalf("Cannot update doc, creating if missing: %v", err)
 	}
+	if err := updateDocMultiple(ctx, client); err != nil {
+		log.Fatalf("Cannot update multiple docs: %v", err)
+	}
 }
