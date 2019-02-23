@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log"
 	"time"
 
@@ -203,7 +204,7 @@ func runSimpleTransaction(ctx context.Context, client *firestore.Client) error {
 	}
 	ref := client.Collection("cities").Doc("SF")
 	err := client.RunTransaction(ctx, func(ctx context.Context, tx *firestore.Transaction) error {
-		doc, err := tx.Get(ref) // tx.Get, NOT ref.Get!
+		doc, err := tx.Get(ref)
 		if err != nil {
 			return err
 		}
@@ -214,6 +215,31 @@ func runSimpleTransaction(ctx context.Context, client *firestore.Client) error {
 		return tx.Set(ref, map[string]interface{}{
 			"population": pop.(int64) + 1,
 		}, firestore.MergeAll)
+	})
+	if err != nil {
+		log.Printf("An error has occurred: %s", err)
+	}
+	return err
+}
+
+func infoTransaction(ctx context.Context, client *firestore.Client) error {
+	ref := client.Collection("cities").Doc("SF")
+	err := client.RunTransaction(ctx, func(ctx context.Context, tx *firestore.Transaction) error {
+		doc, err := tx.Get(ref)
+		if err != nil {
+			return err
+		}
+		pop, err := doc.DataAt("population")
+		if err != nil {
+			return err
+		}
+		newpop := pop.(int64) + 1
+		if newpop <= 1000000 {
+			return tx.Set(ref, map[string]interface{}{
+				"population": pop.(int64) + 1,
+			}, firestore.MergeAll)
+		}
+		return errors.New("population is too big")
 	})
 	if err != nil {
 		log.Printf("An error has occurred: %s", err)

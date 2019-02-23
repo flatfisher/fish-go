@@ -72,4 +72,7 @@ func main() {
 	if err := runSimpleTransaction(ctx, client); err != nil {
 		log.Fatalf("Cannot run simple job in transaction: %v", err)
 	}
+	if err := infoTransaction(ctx, client); err != nil {
+		log.Fatalf("Cannot return info in transaction: %v", err)
+	}
 }
