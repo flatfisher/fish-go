@@ -125,3 +125,28 @@ func updateDocMultiple(ctx context.Context, client *firestore.Client) error {
 	}
 	return err
 }
+
+func updateDocNested(ctx context.Context, client *firestore.Client) error {
+	initialData := map[string]interface{}{
+		"name": "Frank",
+		"age":  12,
+		"favorites": map[string]interface{}{
+			"food":    "Pizza",
+			"color":   "Blue",
+			"subject": "recess",
+		},
+	}
+	if _, err := client.Collection("users").Doc("frank").Set(ctx, initialData); err != nil {
+		return err
+	}
+	_, err := client.Collection("users").Doc("frank").Set(ctx, map[string]interface{}{
+		"age": 13,
+		"favorites": map[string]interface{}{
+			"color": "Red",
+		},
+	}, firestore.MergeAll)
+	if err != nil {
+		log.Printf("An error has occurred: %s", err)
+	}
+	return err
+}

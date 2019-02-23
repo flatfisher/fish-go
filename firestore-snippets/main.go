@@ -60,4 +60,7 @@ func main() {
 	if err := updateDocMultiple(ctx, client); err != nil {
 		log.Fatalf("Cannot update multiple docs: %v", err)
 	}
+	if err := updateDocNested(ctx, client); err != nil {
+		log.Fatalf("Cannot update nested doc: %v", err)
+	}
 }
