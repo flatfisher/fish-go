@@ -14,6 +14,7 @@ Go言語練習用リポジトリ
 - Export Google Calendar's schedule
 
 ## 参考
+- https://github.com/mercari/docker-appengine-go
 - https://gobyexample.com
 - https://qiita.com/tfrcm/items/e2a3d7ce7ab8868e37f7
 - https://github.com/gopherdojo/
@@ -26,3 +27,4 @@ Go言語練習用リポジトリ
 - https://developers.google.com/calendar/quickstart/go
 - https://dave.cheney.net/practical-go/presentations/qcon-china.html
 - https://qiita.com/tags/go
+- https://github.com/gopherdojo

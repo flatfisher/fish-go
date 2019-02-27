@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 
 	"cloud.google.com/go/firestore"
 )
@@ -47,5 +48,38 @@ func prepareQuery(ctx context.Context, client *firestore.Client) error {
 			return err
 		}
 	}
+	return nil
+}
+
+func paginateCursor(ctx context.Context, client *firestore.Client) error {
+	cities := client.Collection("cities")
+	firstPage := cities.OrderBy("population", firestore.Asc).Limit(25).Documents(ctx)
+	docs, err := firstPage.GetAll()
+	if err != nil {
+		return err
+	}
+	lastDoc := docs[len(docs)-1]
+	secondPage := cities.OrderBy("population", firestore.Asc).
+		StartAfter(lastDoc.Data()["population"]).
+		Limit(25)
+	_ = secondPage
+	return nil
+}
+
+func createArrayContainsQuery(ctx context.Context, client *firestore.Client) error {
+	cities := client.Collection("cities")
+	query := cities.Where("regions", "array-contains", "west_coast").Documents(ctx)
+	_ = query
+	return nil
+}
+
+func createStartAtDocSnapshotQuery(ctx context.Context, client *firestore.Client) error {
+	cities := client.Collection("cities")
+	dsnap, err := cities.Doc("SF").Get(ctx)
+	if err != nil {
+		fmt.Println(err)
+	}
+	query := cities.OrderBy("population", firestore.Asc).StartAt(dsnap.Data()["population"]).Documents(ctx)
+	_ = query
 	return nil
 }
