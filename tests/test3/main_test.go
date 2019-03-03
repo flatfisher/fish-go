@@ -1,9 +1,12 @@
 package main
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
 func TestAdd(t *testing.T) {
-	result := Add(1,2)
+	result := Add(1, 2)
 	if result != 3 {
 		t.Errorf("add failed. expect:%d, actual:%d", 3, result)
 	}
@@ -11,57 +14,97 @@ func TestAdd(t *testing.T) {
 }
 
 func TestAdder_Add(t *testing.T) {
-    a := &Adder{}
-    testCases := []struct {
-        L      int
-        R      int
-        Result int
-    }{
-        {1, 2, 3},
-        {0, 0, 0},
-        {0, -1, -1},
-        {100, 200, 300},
-    }
+	a := &Adder{}
+	testCases := []struct {
+		L      int
+		R      int
+		Result int
+	}{
+		{1, 2, 3},
+		{0, 0, 0},
+		{0, -1, -1},
+		{100, 200, 300},
+	}
 
-    for _, testCase := range testCases {
-        result := a.Add(testCase.L, testCase.R)
-        if result != testCase.Result {
-            t.Errorf("invalid result. testCase:%#v, actual:%d", testCase, result)
-        }
-    }
+	for _, testCase := range testCases {
+		result := a.Add(testCase.L, testCase.R)
+		if result != testCase.Result {
+			t.Errorf("invalid result. testCase:%#v, actual:%d", testCase, result)
+		}
+	}
 }
 
 // サブテストの実行.
 // サブテストを使うことで容易にテスト前後の処理を定義できる.
 // テスト関数内で t.Run を使うことでサブテストが実行できる.
 func TestAdder_AddMulti(t *testing.T) {
-    // テスト開始処理
-    t.Log("setup")
+	// テスト開始処理
+	t.Log("setup")
 
-    // サブテスト. t.Run() が順次実行される.
-    t.Run("Len=1", func(t *testing.T) {
-        t.Log("Len=1")
-        if new(Adder).AddMulti(1) != 1 {
-            t.Fail()
-        }
-    })
+	// サブテスト. t.Run() が順次実行される.
+	t.Run("Len=1", func(t *testing.T) {
+		t.Log("Len=1")
+		if new(Adder).AddMulti(1) != 1 {
+			t.Fail()
+		}
+	})
 
-    t.Run("Len=2", func(t *testing.T) {
-        t.Log("Len=2")
-        if new(Adder).AddMulti(1, 2) != 3 {
-            t.Fail()
-        }
-    })
+	t.Run("Len=2", func(t *testing.T) {
+		t.Log("Len=2")
+		if new(Adder).AddMulti(1, 2) != 3 {
+			t.Fail()
+		}
+	})
 
-    t.Run("Len=3", func(t *testing.T) {
-        t.Log("Len=3")
-        if new(Adder).AddMulti(1, 2, 3) != 6 {
-            t.Fail()
-        }
-    })
+	t.Run("Len=3", func(t *testing.T) {
+		t.Log("Len=3")
+		if new(Adder).AddMulti(1, 2, 3) != 6 {
+			t.Fail()
+		}
+	})
 
-    // テスト終了処理
-    t.Log("tear-down")
+	// テスト終了処理
+	t.Log("tear-down")
+}
+
+func TestAdder_AddMulti2(t *testing.T) {
+	// テストの開始終了と各サブテストの終了で時間を表示して実行順を確認する
+	t.Logf("setup: %s", time.Now())
+
+	// 並列実行されるサブテストを t.Run でラップすることで全てのサブテストの終了を待つ.
+	// こうすることで全てのサブテストの終了を待ってテスト終了処理を実行することができる.
+	t.Run("group", func(t *testing.T) {
+		t.Run("Len=1", func(t *testing.T) {
+			// サブテストを並列実行する
+			t.Parallel()
+			// 並列実行されていることを確認するため sleep で終了タイミングをずらす
+			time.Sleep(time.Second * 2)
+			if new(Adder).AddMulti(1) != 1 {
+				t.Fail()
+			}
+			t.Logf("Len=1: %s", time.Now())
+		})
+
+		t.Run("Len=2", func(t *testing.T) {
+			t.Parallel()
+			time.Sleep(time.Second * 3)
+			if new(Adder).AddMulti(1, 2) != 3 {
+				t.Fail()
+			}
+			t.Logf("Len=2: %s", time.Now())
+		})
+
+		t.Run("Len=3", func(t *testing.T) {
+			t.Parallel()
+			time.Sleep(time.Second * 1)
+			if new(Adder).AddMulti(1, 2, 3) != 6 {
+				t.Fail()
+			}
+			t.Logf("Len=3: %s", time.Now())
+		})
+	})
+
+	t.Logf("tear-down: %s", time.Now())
 }
 
 // t.Error はテスト失敗としてログを出すが以後の処理も実行される.
