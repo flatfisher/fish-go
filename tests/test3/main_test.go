@@ -12,7 +12,6 @@ func TestAdd(t *testing.T) {
 
 func TestAdder_Add(t *testing.T) {
     a := &Adder{}
-
     testCases := []struct {
         L      int
         R      int
@@ -21,7 +20,7 @@ func TestAdder_Add(t *testing.T) {
         {1, 2, 3},
         {0, 0, 0},
         {0, -1, -1},
-        {100, 200, 0},
+        {100, 200, 300},
     }
 
     for _, testCase := range testCases {
@@ -30,6 +29,39 @@ func TestAdder_Add(t *testing.T) {
             t.Errorf("invalid result. testCase:%#v, actual:%d", testCase, result)
         }
     }
+}
+
+// サブテストの実行.
+// サブテストを使うことで容易にテスト前後の処理を定義できる.
+// テスト関数内で t.Run を使うことでサブテストが実行できる.
+func TestAdder_AddMulti(t *testing.T) {
+    // テスト開始処理
+    t.Log("setup")
+
+    // サブテスト. t.Run() が順次実行される.
+    t.Run("Len=1", func(t *testing.T) {
+        t.Log("Len=1")
+        if new(Adder).AddMulti(1) != 1 {
+            t.Fail()
+        }
+    })
+
+    t.Run("Len=2", func(t *testing.T) {
+        t.Log("Len=2")
+        if new(Adder).AddMulti(1, 2) != 3 {
+            t.Fail()
+        }
+    })
+
+    t.Run("Len=3", func(t *testing.T) {
+        t.Log("Len=3")
+        if new(Adder).AddMulti(1, 2, 3) != 6 {
+            t.Fail()
+        }
+    })
+
+    // テスト終了処理
+    t.Log("tear-down")
 }
 
 // t.Error はテスト失敗としてログを出すが以後の処理も実行される.
