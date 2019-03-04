@@ -1,4 +1,4 @@
-# Go言語テスト
+## Go言語テスト
 Go言語のテストコードサンプル集です
 
 ## コマンド
@@ -14,3 +14,6 @@ $ go test -v -run Keyword
 
 $ go test -bench .
 ```
+
+## 参考
+- [testing チートシート](https://qiita.com/nirasan/items/b357f0ad9172ab9fa19b)
