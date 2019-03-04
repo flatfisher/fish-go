@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"io"
 	"testing"
+	"testing/iotest"
 )
 
 // io.Reader と io.Writer による入出力のある関数のテストをする.
@@ -26,5 +27,21 @@ func TestReaderWriter(t *testing.T) {
 	// テキストがコピーできていることを確認する.
 	if output.String() != text {
 		t.Errorf("failed to copy. output:%v", output)
+	}
+}
+
+// io.Reader に iotest.NewReadLogger をラップさせると Read されると同時に内容を標準エラー出力に表示する.
+// io.Writer に対する iotest.NewWriteLogger も同じように動作する.
+func TestReaderWriterWithDebugPrint(t *testing.T) {
+	input := bytes.NewBufferString("hello world")
+	output := new(bytes.Buffer)
+	_, err := io.Copy(
+		iotest.NewWriteLogger("output: ", output),
+		iotest.NewReadLogger("input: ", input))
+	if err != nil {
+		t.Error(err)
+	}
+	if output.String() != "hello world" {
+		t.Errorf("faild to copy. output:%v", output)
 	}
 }
