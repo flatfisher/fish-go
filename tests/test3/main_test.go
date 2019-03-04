@@ -107,6 +107,20 @@ func TestAdder_AddMulti2(t *testing.T) {
 	t.Logf("tear-down: %s", time.Now())
 }
 
+func TestAdder_AddMulti3(t *testing.T) {
+	t.Run("group", func(t *testing.T) {
+		helperFunc(t, false)
+		helperFunc(t, true) // helperFunc 内で t.Helper を実行するので Log や Error が発生した際にこの行から出ていることになりデバッグが楽になる.
+	})
+}
+
+func helperFunc(t *testing.T, useHelper bool) {
+	if useHelper {
+		t.Helper()
+	}
+	t.Logf("use helper: %v", useHelper)
+}
+
 // t.Error はテスト失敗としてログを出すが以後の処理も実行される.
 // t.Errorf は出力のフォーマット指定ができるだけで挙動は同じ.
 // func TestAdd2(t *testing.T) {
