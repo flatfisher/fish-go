@@ -1,0 +1,55 @@
+# docker-composeのバージョン
+version: '3'
+# services配下に各コンテナの情報を記載する
+services:
+  # ここからはmysqlのコンテナに関する情報
+  # "mysql"はサービス名(任意につけてok)
+  mysql:
+    # コンテナに名前をつけることもできる
+    container_name: mysql
+    # Dockerfileのあるディレクトリのパスを指定する
+    build:
+      context: .
+      dockerfile: ./mysql/Dockerfile
+    # mysqlのホスト名を決める
+    hostname: mysql
+    # 外部に公開するポートを指定する
+    # これがないと外部からアクセスできない
+    ports:
+      - "3306:3306"
+    # mysqlの設定
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: password
+    # docker-compose run実行時に実行される
+    # オプションは日本語文の字化けに対するおまじない
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --skip-character-set-client-handshake
+    # パスをボリュームとしてマウント
+    # :の左側がホストディレクトリ、:の右側がコンテナ上のディレクトリ
+    volumes:
+      - "db-data:/var/lib/mysql"
+      # 初期設定を読み込む
+      - "./docker/mysql/my.conf:/etc/mysql/my.conf"
+      # MySQL起動時にDBを作成する
+      - "./docker/mysql/init/:/docker-entrypoint-initdb.d"
+  # ここからはGolangのアプリケーションに対する情報
+  sample_docker_compose:
+    # mysqlのコンテナとリンク付けする
+    # mysqlコンテナを起動してからsample_docker_composeを起動してくれるようになる
+    links:
+      - mysql
+    build:
+      context: .
+      dockerfile: ./golang/Dockerfile
+    container_name: sample_docker_compose
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/go/src/sample_docker_compose
+    # docker-compose run実行時に実行される
+    command: go run main.go
+# トップレベルでvolumesを定義すると、各サービスからボリュームを参照できる
+volumes:
+  db-data:
+    driver: local
