@@ -30,3 +30,12 @@ func JsonHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprint(w, string(b))
 }
+
+type MyServer struct{}
+
+func (s *MyServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	m := http.NewServeMux()
+	m.HandleFunc("/hello", HelloHandler)
+	m.HandleFunc("/json", JsonHandler)
+	m.ServeHTTP(w, r)
+}
