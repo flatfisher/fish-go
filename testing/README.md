@@ -13,6 +13,9 @@ $ go test -v
 $ go test -v -run Keyword
 
 $ go test -bench .
+
+$ cd test7/
+$ go test -args -num 3
 ```
 
 ## 参考
