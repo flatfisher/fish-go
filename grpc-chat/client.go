@@ -12,7 +12,7 @@ import (
 	"github.com/golang/protobuf/ptypes"
 	"google.golang.org/grpc"
 
-	pb "../protos"
+	pb "./protos"
 )
 
 type client struct {
