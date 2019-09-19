@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package HelloService;
+
+// The greeting service definition.
+service HelloGrpc {
+    // Sends a greeting
+    rpc GreetServer (HelloRequest) returns (HelloResponse) {}
+}
+
+message HelloRequest {
+  string greeting = 1;
+}
+
+message HelloResponse {
+  string reply = 1;
+}
