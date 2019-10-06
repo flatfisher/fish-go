@@ -1,12 +1,8 @@
 # fish-go
 Go言語練習用リポジトリ
 
-## samples
-練習で作成したソースを管理する
-
-## 今後作成したいサンプル
-- map
-- 並行処理
+## 作成したいサンプル
+- Concurrency
 - gRPC
 - GraphQL
 - GKE
