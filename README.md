@@ -1,7 +1,7 @@
 # fish-go
 Go言語練習用リポジトリ
 
-## 作成したいサンプル
+## 作成したいサンプルリスト
 - Concurrency
 - gRPC
 - GraphQL
