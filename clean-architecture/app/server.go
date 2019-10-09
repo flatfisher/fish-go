@@ -1,8 +1,7 @@
 package main
 
-import "app/infrastructure"
-
+import "infrastructure"
 
 func main() {
-    infrastructure.Router.Run()
+	infrastructure.Router.Run()
 }
