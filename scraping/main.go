@@ -17,13 +17,22 @@ func main() {
 		fmt.Print("url scarapping failed")
 	}
 
+	c := 0
+	var tmp []string
 	doc.Find("table tr td").Each(func(i int, s *goquery.Selection) {
 		text := s.Text()
 		msg, err := sJisttoUtf8(text)
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(msg)
+
+		if c < 7 {
+			tmp = append(tmp, msg)
+			fmt.Println(tmp)
+		} else {
+			c = 0
+		}
+		c++
 	})
 }
 
